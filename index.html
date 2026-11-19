@@ -1,0 +1,335 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="Smart To-Do is a simple productivity application to organize and manage your daily tasks.">
+
+    <meta name="author" content="Ananth">
+
+    <title>SmartTodo | Productivity Dashboard</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                <span>✓</span>
+                SmartTodo
+            </div>
+
+            <nav class="nav-menu">
+
+                <p class="nav-label">MENU</p>
+
+                <button type="button" class="nav-item active" data-filter="all" aria-pressed="true">
+                    <span>▦</span>
+                    All Tasks
+                </button>
+
+                <button type="button" class="nav-item" data-filter="pending" aria-pressed="false">
+                    <span>◷</span>
+                    Pending
+                </button>
+
+                <button type="button" class="nav-item" data-filter="completed" aria-pressed="false">
+                    <span>✓</span>
+                    Completed
+                </button>
+
+            </nav>
+
+            <div class="sidebar-footer">
+                <p>Stay focused.</p>
+                <p>Get things done.</p>
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="main-content">
+
+            <!-- HEADER -->
+
+            <header class="topbar">
+
+                <div class="welcome-section">
+                    <h1>My Workspace</h1>
+                    <p>Manage your day, one task at a time.</p>
+                </div>
+
+                <div class="profile">
+                    <span>A</span>
+                </div>
+
+            </header>
+
+
+            <!-- ================= STATISTICS ================= -->
+
+            <section class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <p>Total Tasks</p>
+                        <h2 id="totalTasks" aria-live="polite">0</h2>
+                    </div>
+                    <div class="stat-icon">📋</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <p>Pending Tasks</p>
+                        <h2 id="pendingTasks" aria-live="polite">0</h2>
+                    </div>
+                    <div class="stat-icon">⏳</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <p>Completed Tasks</p>
+                        <h2 id="completedTasks" aria-live="polite">0</h2>
+                    </div>
+                    <div class="stat-icon">✅</div>
+                </div>
+
+            </section>
+
+
+            <!-- ================= TASK SECTION ================= -->
+
+            <section class="task-section">
+
+                <!-- TASK HEADER -->
+
+                <div class="task-heading">
+
+                    <div>
+                        <h2>My Tasks</h2>
+                        <p>Organize your daily activities</p>
+                    </div>
+
+                    <button id="addTaskBtn" class="add-btn">
+                        + Add Task
+                    </button>
+
+                </div>
+
+
+                <!-- SEARCH AND FILTER -->
+
+                <div class="task-toolbar">
+
+                    <div class="search-box">
+                        <span>🔍</span>
+
+                        <input
+                            type="search"
+                            id="searchInput"
+                            placeholder="Search your tasks..."
+                            autocomplete="off"
+                            aria-label="Search tasks"
+                        >
+                    </div>
+
+                    <select id="categoryFilter">
+                        <option value="all">All Categories</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Work">Work</option>
+                        <option value="Study">Study</option>
+                    </select>
+
+                </div>
+
+
+                <!-- TASK LIST -->
+
+                <div id="taskList" class="task-list" aria-live="polite">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">📝</div>
+
+                        <h3>No tasks yet!</h3>
+
+                        <p>
+                            Click the Add Task button to create
+                            your first task.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+
+    <!-- ================= ADD / EDIT TASK MODAL ================= -->
+
+    <div class="modal-overlay" id="taskModal" aria-hidden="true">
+
+        <div class="task-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2 id="modalTitle">Add New Task</h2>
+                    <p>Create and organize your task</p>
+                </div>
+
+                <button
+                    type="button"
+                    class="close-modal"
+                    id="closeModalBtn"
+                    aria-label="Close modal"
+                >
+                    &times;
+                </button>
+
+            </div>
+
+
+            <!-- TASK FORM -->
+
+            <form id="taskForm">
+
+                <!-- Task Title -->
+
+                <div class="form-group">
+
+                    <label for="taskTitle">Task Title</label>
+
+                    <input
+                        type="text"
+                        id="taskTitle"
+                        placeholder="Enter your task title..."
+                        maxlength="100"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Description -->
+
+                <div class="form-group">
+
+                    <label for="taskDescription">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="taskDescription"
+                        placeholder="Add some details about your task..."
+                        rows="3"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- Category and Priority -->
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="taskCategory">Category</label>
+
+                        <select id="taskCategory" required>
+
+                            <option value="Personal">Personal</option>
+                            <option value="Work">Work</option>
+                            <option value="Study">Study</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="taskPriority">Priority</label>
+
+                        <select id="taskPriority" required>
+
+                            <option value="Low">Low</option>
+                            <option value="Medium" selected>Medium</option>
+                            <option value="High">High</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Due Date -->
+
+                <div class="form-group">
+
+                    <label for="taskDate">Due Date</label>
+
+                    <input
+                        type="date"
+                        id="taskDate"
+                    >
+
+                </div>
+
+
+                <!-- Modal Actions -->
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        id="cancelTaskBtn"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="saveTaskBtn"
+                        class="save-btn"
+                    >
+                        Save Task
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
